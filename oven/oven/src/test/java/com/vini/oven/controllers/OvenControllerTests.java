@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 
-import com.vini.oven.services.OvenService;
 
 
 @SpringBootTest
@@ -21,10 +20,7 @@ public class OvenControllerTests {
 
     @Autowired
     private MockMvc mvc;
-    
-    @Autowired
-    private OvenService ovenService;
-    
+        
     @Test
     public void itegrationTest() throws Exception {
 		String light_str = "Lights: ";		

@@ -2,7 +2,6 @@ package com.vini.oven.services;
 
 import org.springframework.stereotype.Service;
 
-import com.vini.oven.entities.Oven;
 import com.vini.oven.repositories.OvenRepository;
 
 @Service
