@@ -11,7 +11,11 @@ public class OvenService {
 		this.ovenRepo = ovenRepo;
 	}
 	
-	public String show_my_oven_status() {		
-		return ovenRepo.get_oven_state().toString();
+	public String show_my_oven_status() {
+		try {
+			return ovenRepo.get_oven_state().toString();			
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 	}
 }
