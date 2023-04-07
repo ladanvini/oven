@@ -1,15 +1,17 @@
 package com.vini.oven.services;
 
-import com.vini.oven.entities.Oven;
+import org.springframework.stereotype.Service;
 
+import com.vini.oven.repositories.OvenRepository;
+
+@Service
 public class OvenService {
-	private Oven oven;
-	public OvenService() {
-		// Temporarily start with an OFF button
-		this.oven = new Oven();
+	private final OvenRepository ovenRepo;
+	public OvenService(OvenRepository ovenRepo) {
+		this.ovenRepo = ovenRepo;
 	}
 	
 	public String show_my_oven_status() {		
-		return this.oven.toString();
+		return ovenRepo.get_oven_state().toString();
 	}
 }

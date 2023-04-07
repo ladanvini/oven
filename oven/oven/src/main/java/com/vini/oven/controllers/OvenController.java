@@ -7,10 +7,10 @@ import com.vini.oven.services.OvenService;
 
 @RestController
 public class OvenController {
-	private OvenService ovenService;
+	private final OvenService ovenService;
 	
-	public OvenController() {
-		this.ovenService = new OvenService();
+	public OvenController(OvenService overService) {
+		this.ovenService = overService;
 	}
 	
 	@GetMapping("/")
