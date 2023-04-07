@@ -68,7 +68,12 @@ public class Oven {
 			light_str += "ON";
 		else
 			light_str += "OFF";
-		return light_str;
+		String upper_str = "Upper Element Temp: " + Integer.toString(this.upper_element);
+		String lower_str = "Lower Element Temp:" + Integer.toString(this.lower_element);
+		String grill_str = "Grill Temp: " + Integer.toString(this.grill_temp);
+		String fan_str = "Fan Speed: " + Integer.toString(this.fan_speed); 
+		
+		return ("\n" + light_str + "\n" + upper_str  + "\n" + lower_str  + "\n" + grill_str  + "\n" + fan_str + "\n");
 	}
 	
 }
