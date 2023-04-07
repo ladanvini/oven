@@ -8,4 +8,8 @@ public class OvenService {
 		// Temporarily start with an OFF button
 		this.oven = new Oven();
 	}
+	
+	public String show_my_oven_status() {		
+		return this.oven.toString();
+	}
 }
