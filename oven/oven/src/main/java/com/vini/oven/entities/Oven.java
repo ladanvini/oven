@@ -62,4 +62,13 @@ public class Oven {
 		this.light = light;
 	}
 	
+	public String toString() {
+		String light_str = "Lights: ";
+		if (this.light)
+			light_str += "ON";
+		else
+			light_str += "OFF";
+		return light_str;
+	}
+	
 }
