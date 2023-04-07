@@ -14,7 +14,14 @@ public class Oven {
 		this.setGrill_temp(0);
 		this.setFan_speed(0);
 	}
-	
+	public Oven(Boolean _light, int _upper, int _lower, int _grill, int _fan_speed) {
+		this.setFan_speed(_fan_speed);
+		this.setGrill_temp(_grill);
+		this.setLight(_light);
+		this.setLower_element(_lower);
+		this.setUpper_element(_upper);
+		
+	}
 	public int getFan_speed() {
 		return fan_speed;
 	}
