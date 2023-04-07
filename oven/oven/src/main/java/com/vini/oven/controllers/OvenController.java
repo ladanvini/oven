@@ -15,6 +15,6 @@ public class OvenController {
 	
 	@GetMapping("/")
 	public String home() {
-		return "";
+		return this.ovenService.show_my_oven_status();
 	}
 }
