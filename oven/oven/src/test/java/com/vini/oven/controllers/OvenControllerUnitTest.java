@@ -26,7 +26,7 @@ public class OvenControllerUnitTest {
     public void testWithMockedService() throws Exception {
 		
 		String expected = "Hello world";
-		when(ovenService.show_my_oven_status()).thenReturn("YO HELLO");
+		when(ovenService.show_my_oven_status()).thenReturn(expected);
 
     	this.mvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
 		.andExpect(content().string(expected));
