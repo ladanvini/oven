@@ -24,7 +24,7 @@ public class OvenServiceUnitTest {
 	private OvenRepository ovenRepo;
 
 	@Test
-	public void testSimpleServiceUnitTest() {
+	public void testSimpleServiceUnitTest() throws Exception {
 		String light_str = "Lights: ";		
 		light_str += "ON";
 		String upper_str = "Upper Element Temp: " + Integer.toString(0);
