@@ -58,6 +58,13 @@ public class AllOvensTests {
 	this.mvc.perform(get("/all")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
     }
 
+    @Test
+    public void testShowsOopsIfNoOvens() throws Exception {
+	String expected = "\nOops! I have no ovens!\n";
+	mvc.perform(get("/all")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
+
+    }
+
     @AfterEach
     public void tearDown() {
 	oven_repository.deleteAll();
