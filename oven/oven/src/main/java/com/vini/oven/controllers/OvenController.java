@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vini.oven.entities.Oven;
 import com.vini.oven.services.OvenService;
 
 @RestController
@@ -25,13 +24,13 @@ public class OvenController {
 
 	@GetMapping("/all")
 	public String all_ovens() {
-		List<Oven> all_ovens = this.ovenService.show_all_ovens();
-
+		List<String> all_ovens = ovenService.showAllOvensStr();
+		String title = "Here are all of my ovens!";
 		String stingified_ovens = "\n";
 		for (int i = 0; i < all_ovens.size(); i++) {
-			stingified_ovens += all_ovens.get(i).toString();
+			stingified_ovens += (all_ovens.get(i) + "\n");
 		}
-		return stingified_ovens;
+		return title + stingified_ovens;
 	}
 
 }
