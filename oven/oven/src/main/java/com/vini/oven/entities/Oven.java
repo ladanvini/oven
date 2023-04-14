@@ -10,94 +10,112 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "oven")
 public class Oven {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name = "light")
-	private Boolean light;
+    @Column(name = "key", unique = true, nullable = false)
+    private String key;
 
-	@Column(name = "upper_element")
-	private int upper_element;
+    @Column(name = "light", nullable = true)
+    private Boolean light;
 
-	@Column(name = "lower_element")
-	private int lower_element;
+    @Column(name = "upper_element", nullable = true)
+    private int upper_element;
 
-	@Column(name = "grill_temp")
-	private int grill_temp;
+    @Column(name = "lower_element", nullable = true)
+    private int lower_element;
 
-	@Column(name = "fan_speed")
-	private int fan_speed;
+    @Column(name = "grill_temp", nullable = true)
+    private int grill_temp;
 
-	public Oven() {
-		this.setLight(false);
-		this.setUpper_element(0);
-		this.setLower_element(0);
-		this.setGrill_temp(0);
-		this.setFan_speed(0);
-	}
+    @Column(name = "fan_speed", nullable = true)
+    private int fan_speed;
 
-	public Oven(Boolean _light, int _upper, int _lower, int _grill, int _fan_speed) {
-		this.setFan_speed(_fan_speed);
-		this.setGrill_temp(_grill);
-		this.setLight(_light);
-		this.setLower_element(_lower);
-		this.setUpper_element(_upper);
+    public Oven() {
+	this.setKey("Random" + this.id);
+    }
 
-	}
+    public Oven(String key) {
+	this.setKey(key);
+	this.setLight(false);
+	this.setUpper_element(0);
+	this.setLower_element(0);
+	this.setGrill_temp(0);
+	this.setFan_speed(0);
+    }
 
-	public int getFan_speed() {
-		return fan_speed;
-	}
+    public Oven(String key, Boolean _light, int _upper, int _lower, int _grill, int _fan_speed) {
+	this.setKey(key);
+	this.setFan_speed(_fan_speed);
+	this.setGrill_temp(_grill);
+	this.setLight(_light);
+	this.setLower_element(_lower);
+	this.setUpper_element(_upper);
 
-	public void setFan_speed(int fan_speed) {
-		this.fan_speed = fan_speed;
-	}
+    }
 
-	public int getGrill_temp() {
-		return grill_temp;
-	}
+    public int getFan_speed() {
+	return fan_speed;
+    }
 
-	public void setGrill_temp(int grill_temp) {
-		this.grill_temp = grill_temp;
-	}
+    public void setFan_speed(int fan_speed) {
+	this.fan_speed = fan_speed;
+    }
 
-	public int getLower_element() {
-		return lower_element;
-	}
+    public int getGrill_temp() {
+	return grill_temp;
+    }
 
-	public void setLower_element(int lower_element) {
-		this.lower_element = lower_element;
-	}
+    public void setGrill_temp(int grill_temp) {
+	this.grill_temp = grill_temp;
+    }
 
-	public int getUpper_element() {
-		return upper_element;
-	}
+    public int getLower_element() {
+	return lower_element;
+    }
 
-	public void setUpper_element(int upper_element) {
-		this.upper_element = upper_element;
-	}
+    public void setLower_element(int lower_element) {
+	this.lower_element = lower_element;
+    }
 
-	public Boolean getLight() {
-		return light;
-	}
+    public int getUpper_element() {
+	return upper_element;
+    }
 
-	public void setLight(Boolean light) {
-		this.light = light;
-	}
+    public void setUpper_element(int upper_element) {
+	this.upper_element = upper_element;
+    }
 
-	public String toString() {
-		String light_str = "Lights: ";
-		if (this.light)
-			light_str += "ON";
-		else
-			light_str += "OFF";
-		String upper_str = "Upper Element Temp: " + Integer.toString(this.upper_element);
-		String lower_str = "Lower Element Temp:" + Integer.toString(this.lower_element);
-		String grill_str = "Grill Temp: " + Integer.toString(this.grill_temp);
-		String fan_str = "Fan Speed: " + Integer.toString(this.fan_speed);
+    public Boolean getLight() {
+	return light;
+    }
 
-		return ("\n" + light_str + "\n" + upper_str + "\n" + lower_str + "\n" + grill_str + "\n" + fan_str + "\n");
-	}
+    public void setLight(Boolean light) {
+	this.light = light;
+    }
+
+    public String toString() {
+	String key_str = "Oven Key: " + this.getKey() + "\n";
+	String light_str = "Lights: ";
+	if (this.light)
+	    light_str += "ON" + "\n";
+	else
+	    light_str += "OFF" + "\n";
+	String upper_str = "Upper Element Temp: " + Integer.toString(this.upper_element) + "\n";
+	String lower_str = "Lower Element Temp: " + Integer.toString(this.lower_element) + "\n";
+	String grill_str = "Grill Temp: " + Integer.toString(this.grill_temp) + "\n";
+	String fan_str = "Fan Speed: " + Integer.toString(this.fan_speed) + "\n";
+
+	return ("\n" + key_str + light_str + upper_str + lower_str + grill_str + fan_str);
+    }
+
+    public String getKey() {
+	return key;
+    }
+
+    public void setKey(String key) {
+	this.key = key;
+    }
 
 }

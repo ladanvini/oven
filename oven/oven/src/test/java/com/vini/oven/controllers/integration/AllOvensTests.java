@@ -31,9 +31,10 @@ public class AllOvensTests {
 
     @Test
     public void testShowsSingleOvenCorrectStrFormat() throws Exception {
-	oven_repository.save(new Oven());
+	oven_repository.save(new Oven("Snape"));
 	String expected = "Here are all of my ovens!\n"
-		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp:0"
+		+ "\nOven Key: Snape"
+		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
 		+ "\nGrill Temp: 0\nFan Speed: 0\n\n";
 
 	this.mvc.perform(get("/all")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
@@ -41,19 +42,23 @@ public class AllOvensTests {
 
     @Test
     public void testShowsMultipleOvensCorrectStrFormat() throws Exception {
-	oven_repository.save(new Oven());
-	oven_repository.save(new Oven(true, 0, 10, 10, 100));
-	oven_repository.save(new Oven(false, 10, 234, 5, 6));
-	oven_repository.save(new Oven());
+	oven_repository.save(new Oven("Grindelwald"));
+	oven_repository.save(new Oven("Antioch", true, 0, 10, 10, 100));
+	oven_repository.save(new Oven("Cadmus", false, 10, 234, 5, 6));
+	oven_repository.save(new Oven("Ignotus"));
 	String expected = "Here are all of my ovens!\n"
-		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp:0"
+		+ "\nOven Key: Grindelwald"
+		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
 		+ "\nGrill Temp: 0\nFan Speed: 0\n\n";
-	expected +=
-		"\nLights: ON\nUpper Element Temp: 0\nLower Element Temp:10" + "\nGrill Temp: 10\nFan Speed: 100\n\n";
-	expected +=
-		("\nLights: OFF\nUpper Element Temp: 10\nLower Element Temp:234" + "\nGrill Temp: 5\nFan Speed: 6\n\n");
-	expected +=
-		("\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp:0" + "\nGrill Temp: 0\nFan Speed: 0\n\n");
+	expected += "\nOven Key: Antioch"
+		+ "\nLights: ON\nUpper Element Temp: 0\nLower Element Temp: 10"
+		+ "\nGrill Temp: 10\nFan Speed: 100\n\n";
+	expected += "\nOven Key: Cadmus"
+		+ "\nLights: OFF\nUpper Element Temp: 10\nLower Element Temp: 234"
+		+ "\nGrill Temp: 5\nFan Speed: 6\n\n";
+	expected += "\nOven Key: Ignotus"
+		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
+		+ "\nGrill Temp: 0\nFan Speed: 0\n\n";
 
 	this.mvc.perform(get("/all")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
     }
