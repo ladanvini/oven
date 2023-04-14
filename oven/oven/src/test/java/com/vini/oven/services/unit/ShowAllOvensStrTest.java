@@ -28,7 +28,7 @@ public class ShowAllOvensStrTest {
 
     @Test
     public void testReturnsOneCustomOven() throws Exception {
-	Oven test_oven = new Oven(true, 0, 10, 0, 100);
+	Oven test_oven = new Oven("Salazar", true, 0, 10, 0, 100);
 	List<Oven> repo_oven_list = new ArrayList<Oven>();
 	repo_oven_list.add(test_oven);
 	List<String> expected = new ArrayList<String>();
@@ -52,9 +52,9 @@ public class ShowAllOvensStrTest {
 
     @Test
     public void testReturnsMultipleOvens() throws Exception {
-	Oven test_oven_0 = new Oven(true, 0, 10, 0, 100);
-	Oven test_oven_1 = new Oven(false, 32, 0, 1, 0);
-	Oven test_oven_2 = new Oven();
+	Oven test_oven_0 = new Oven("Lucius", true, 0, 10, 0, 100);
+	Oven test_oven_1 = new Oven("Draco", false, 32, 0, 1, 0);
+	Oven test_oven_2 = new Oven("Malfoy");
 	List<Oven> repo_oven_list = new ArrayList<Oven>();
 	repo_oven_list.add(test_oven_0);
 	repo_oven_list.add(test_oven_1);

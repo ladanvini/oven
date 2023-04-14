@@ -23,9 +23,4 @@ public class OvenService {
 	return all_ovens_str;
 
     }
-
-    public void save_dummy_oven() {
-	oven_repository.save(new Oven());
-	oven_repository.save(new Oven(true, 10, 10, 0, 100));
-    }
 }
