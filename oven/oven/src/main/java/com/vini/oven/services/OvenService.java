@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vini.oven.entities.Oven;
+import com.vini.oven.exceptions.MyCustomInternalExceptions;
 import com.vini.oven.repositories.OvenRepository;
 
 @Service
@@ -22,5 +23,15 @@ public class OvenService {
 	}
 	return all_ovens_str;
 
+    }
+
+    public Oven getOvenByKey(String key) throws MyCustomInternalExceptions {
+	List<Oven> ovensByKey = this.oven_repository.findByKey(key);
+	if (ovensByKey.size() == 0)
+	    throw new MyCustomInternalExceptions("No ovens found with key " + key, "oven.not_found");
+	if (ovensByKey.size() > 1)
+	    throw new MyCustomInternalExceptions("Oops! Something is wrong with DB!" + key,
+		    "data.unique_not_respected");
+	return ovensByKey.get(0);
     }
 }

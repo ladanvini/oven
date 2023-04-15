@@ -12,4 +12,6 @@ public interface OvenRepository extends CrudRepository<Oven, Integer> {
     List<Oven> findAll();
 
     List<Oven> findAllByOrderByIdAsc();
+
+    List<Oven> findByKey(String key);
 }
