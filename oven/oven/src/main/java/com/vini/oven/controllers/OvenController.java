@@ -3,26 +3,21 @@ package com.vini.oven.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vini.oven.services.OvenService;
 
 @RestController
+@RequestMapping("/ovens")
 public class OvenController {
     @Autowired
     private OvenService ovenService;
 
-    @GetMapping("/")
-    public String home() {
-	String greeting = "Welcome to Oven Service!\r\n\r\n";
-	greeting += "I should be running on your localhost:8080\n";
-	String curl_with_paths = "Go ahead and curl me with any of the following endpoints:\n";
-	curl_with_paths += "/all";
-	return greeting + curl_with_paths;
-    }
-
-    @GetMapping("/all")
+    @RequestMapping(method = RequestMethod.GET)
     public String allOvens() {
 	List<String> all_ovens = ovenService.showAllOvensStr();
 	if (all_ovens == null || all_ovens.size() == 0) {
@@ -34,6 +29,12 @@ public class OvenController {
 	    stingified_ovens += (all_ovens.get(i) + "\n");
 	}
 	return title + stingified_ovens;
+    }
+
+    @RequestMapping(value = "/{key}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getEmployeesById(@PathVariable("key") String key) {
+	return key;
     }
 
 }
