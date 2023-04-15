@@ -32,6 +32,9 @@ public class OvenService {
 	if (ovensByKey.size() > 1)
 	    throw new MyCustomInternalExceptions("Oops! Something is wrong with DB!" + key,
 		    "data.unique_not_respected");
+	// TODO get oven state from other microservice
+	// TODO save oven state to db
+	// TODO return new oven
 	return ovensByKey.get(0);
     }
 }

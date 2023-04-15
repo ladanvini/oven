@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vini.oven.entities.Oven;
+import com.vini.oven.exceptions.MyCustomInternalExceptions;
 import com.vini.oven.services.OvenService;
 
 @RestController
@@ -34,7 +36,20 @@ public class OvenController {
     @RequestMapping(value = "/{key}", method = RequestMethod.GET)
     @ResponseBody
     public String getEmployeesById(@PathVariable("key") String key) {
-	return key;
+	try {
+	    Oven oven = this.ovenService.getOvenByKey(key);
+	    if (oven == null)
+		return "404 Oven Not Found";
+	    return oven.toString();
+	} catch (MyCustomInternalExceptions err) {
+	    if (err.getErrorCode().contentEquals("oven.not_found"))
+		return "404 Oven Not Found";
+	    if (err.getErrorCode().contentEquals("data.unique_not_respected"))
+		return "500 Server Error";
+	    if (err.getErrorCode().contentEquals("service.cannot_receive_message"))
+		return "503 Service is Currently Unavailable";
+	}
+	return "Oops! Something is not right here...";
     }
 
 }
