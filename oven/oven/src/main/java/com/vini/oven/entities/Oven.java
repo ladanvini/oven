@@ -34,6 +34,12 @@ public class Oven {
 
     public Oven() {
 	this.setKey("Random" + this.id);
+	this.setLight(false);
+	this.setUpper_element(0);
+	this.setLower_element(0);
+	this.setGrill_temp(0);
+	this.setFan_speed(0);
+
     }
 
     public Oven(String key) {

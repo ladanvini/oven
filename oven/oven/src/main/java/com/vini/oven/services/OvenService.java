@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vini.oven.entities.Oven;
@@ -36,5 +37,23 @@ public class OvenService {
 	// TODO save oven state to db
 	// TODO return new oven
 	return ovensByKey.get(0);
+    }
+
+    public Oven saveNewOven(Oven newOven) throws MyCustomInternalExceptions {
+	try {
+	    Oven savedOven = oven_repository.save(newOven);
+	    if (savedOven == null)
+		throw new MyCustomInternalExceptions("Could not save oven", "service.database_error");
+	    return savedOven;
+	} catch (Exception err) {
+	    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+	    System.out.println(err.getMessage());
+	    System.out.println(err.toString());
+	    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+	    if (err instanceof DataIntegrityViolationException)
+		throw new MyCustomInternalExceptions(newOven.getKey() + " already exists", "data.unique_not_respected");
+	    else
+		throw new MyCustomInternalExceptions(err.getLocalizedMessage(), "service.database_error");
+	}
     }
 }
