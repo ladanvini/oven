@@ -1,13 +1,9 @@
 package com.vini.oven.controllers.unit.oven_controller_tests;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +15,17 @@ import com.vini.oven.controllers.OvenController;
 import com.vini.oven.services.OvenService;
 
 @WebMvcTest(OvenController.class)
-public class AllOvensTest {
-
+public class GetOvenByKey {
     @Autowired
     private MockMvc mvc;
     @MockBean
     private OvenService oven_service;
 
-    private final String path_url = "/ovens";
+    private final String path_url = "/ovens/";
 
     @Test
-    public void testShowsSingleOven() {
-
-	String dummy_oven_str = "Hello World!";
-	List<String> given_ovens = new ArrayList<String>();
-	given_ovens.add(dummy_oven_str);
-	when(this.oven_service.showAllOvensStr()).thenReturn(given_ovens);
-
-	String expected = "Here are all of my ovens!\nHello World!\n";
+    public void testShowsCorrectOven() {
+	String expected = "OVEN";
 	try {
 	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
@@ -46,50 +35,41 @@ public class AllOvensTest {
     }
 
     @Test
-    public void testShowsMultipleOvens() {
+    public void testShowsNotFoundWhenOvenDoesNotExist() {
+	String expected = "404 Oven Not Found";
 
-	List<String> given_ovens = new ArrayList<String>();
-	given_ovens.add("But Luke, ");
-	given_ovens.add("I am your");
-	given_ovens.add("FATHER!!");
-	when(this.oven_service.showAllOvensStr()).thenReturn(given_ovens);
-
-	String expected = "Here are all of my ovens!\nBut Luke, \nI am your\nFATHER!!\n";
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
+	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isNotFound())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+
     }
 
     @Test
-    public void testShowsOopsIfNoOvens() {
+    public void testShowsBadRequestWhenInvalidKey() {
+	String expected = "400 Invalid Oven Key";
 
-	List<String> given_ovens = new ArrayList<String>();
-	when(this.oven_service.showAllOvensStr()).thenReturn(given_ovens);
-
-	String expected = "\nOops! I have no ovens!\n";
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
+	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isBadRequest())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+
     }
 
     @Test
-    public void testShowsOopsIfOvensNull() {
+    public void testShowsUnavailableIfCantGetStateFromOtherMicroservice() {
+	String expected = "503 Service is Currently Unavailable";
 
-	when(this.oven_service.showAllOvensStr()).thenReturn(null);
-
-	String expected = "\nOops! I have no ovens!\n";
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
+	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isServiceUnavailable())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-    }
 
+    }
 }
