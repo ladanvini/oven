@@ -118,4 +118,39 @@ public class Oven {
 	this.key = key;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+	// if the memory references are equal,
+	// then the objects are same hence return true.
+	if (this == obj) {
+	    return true;
+	}
+	/*
+	 * if the second object is null, but the first object is not null, return false.
+	 */
+	if (obj == null) {
+	    return false;
+	}
+	/*
+	 * if the class type of these two objects are not equal, return false.
+	 */
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	// Typecast the Object class to the Student object.
+	Oven oven = (Oven) obj;
+
+	/*
+	 * Business logic: If two students have same enrollment number then they are
+	 * equal.
+	 */
+	if (this.getKey().contentEquals(oven.getKey()) && this.getLight() == oven.getLight()
+		&& this.getFan_speed() == oven.getFan_speed() && this.getGrill_temp() == oven.getGrill_temp()
+		&& this.getLower_element() == oven.getLower_element()
+		&& this.getUpper_element() == oven.getUpper_element()) {
+	    return true;
+	}
+	return false;
+    }
+
 }
