@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.vini.oven.entities.Oven;
@@ -18,6 +19,7 @@ import com.vini.oven.repositories.OvenRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class AllOvensTests {
     @Autowired
     private MockMvc mvc;
@@ -37,7 +39,7 @@ public class AllOvensTests {
 		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
 		+ "\nGrill Temp: 0\nFan Speed: 0\n\n";
 
-	this.mvc.perform(get("/all")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
+	this.mvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
     }
 
     @Test
@@ -60,13 +62,13 @@ public class AllOvensTests {
 		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
 		+ "\nGrill Temp: 0\nFan Speed: 0\n\n";
 
-	this.mvc.perform(get("/all")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
+	this.mvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
     }
 
     @Test
     public void testShowsOopsIfNoOvens() throws Exception {
 	String expected = "\nOops! I have no ovens!\n";
-	mvc.perform(get("/all")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
+	mvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
 
     }
 
