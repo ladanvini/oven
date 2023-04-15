@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  states_svc:
+    image: 'ovenstate:latest'
+    build:
+      context: .
+    container_name: states_svc
+    ports:
+      - "8088:8088"
