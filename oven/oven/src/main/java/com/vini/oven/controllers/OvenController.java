@@ -3,7 +3,9 @@ package com.vini.oven.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,8 +50,21 @@ public class OvenController {
 		return "500 Server Error";
 	    if (err.getErrorCode().contentEquals("service.cannot_receive_message"))
 		return "503 Service is Currently Unavailable";
+	    return "Oops! Something is not right here...\n" + err.getLocalizedMessage();
 	}
-	return "Oops! Something is not right here...";
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String saveNewOven(@RequestBody Oven newOven) {
+	try {
+	    Oven saved = ovenService.saveNewOven(newOven);
+	    if (saved == null)
+		return "Something very bad and unexpected happened!";
+	    return saved.toString();
+	} catch (MyCustomInternalExceptions err) {
+	    return err.getMessage();
+	}
+
     }
 
 }
