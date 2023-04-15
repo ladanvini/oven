@@ -15,7 +15,7 @@ import com.vini.oven.controllers.OvenController;
 import com.vini.oven.services.OvenService;
 
 @WebMvcTest(OvenController.class)
-public class GetOvenByKey {
+public class GetOvenByKeyTest {
     @Autowired
     private MockMvc mvc;
     @MockBean
