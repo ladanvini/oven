@@ -1,43 +1,22 @@
-package com.vini.oven.entities;
+package com.vini.ovenstate.entities;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vini.oven.exceptions.MyCustomInternalExceptions;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "oven")
 public class Oven {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "key", unique = true, nullable = false)
     private String key;
 
-    @Column(name = "light", nullable = true)
     private Boolean light;
 
-    @Column(name = "upper_element", nullable = true)
     private int upper_element;
 
-    @Column(name = "lower_element", nullable = true)
     private int lower_element;
 
-    @Column(name = "grill_temp", nullable = true)
     private int grill_temp;
 
-    @Column(name = "fan_speed", nullable = true)
     private int fan_speed;
 
     public Oven() {
-	this.setKey("Random" + this.getId());
+	this.setKey("Random" + this.id);
 	this.setLight(false);
 	this.setUpper_element(0);
 	this.setLower_element(0);
@@ -105,15 +84,6 @@ public class Oven {
 	this.light = light;
     }
 
-    public void setAllProperties(Boolean _light, int _upper, int _lower, int _grill, int _fan_speed) {
-	this.setFan_speed(_fan_speed);
-	this.setGrill_temp(_grill);
-	this.setLight(_light);
-	this.setLower_element(_lower);
-	this.setUpper_element(_upper);
-
-    }
-
     public String toString() {
 	String key_str = "Oven Key: " + this.getKey() + "\n";
 	String light_str = "Lights: ";
@@ -170,26 +140,6 @@ public class Oven {
 	    return true;
 	}
 	return false;
-    }
-
-    public String toJSON() throws MyCustomInternalExceptions {
-	ObjectMapper mapper = new ObjectMapper();
-	try {
-	    String json = mapper.writeValueAsString(this);
-	    System.out.println("ResultingJSONstring = " + json);
-	    return json;
-	} catch (JsonProcessingException e) {
-	    e.printStackTrace();
-	    throw new MyCustomInternalExceptions(e.getLocalizedMessage(), "data.json_parse_err");
-	}
-    }
-
-    public Integer getId() {
-	return id;
-    }
-
-    public void setId(Integer id) {
-	this.id = id;
     }
 
 }

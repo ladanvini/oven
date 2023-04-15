@@ -1,6 +1,6 @@
-package com.vini.oven.entities;
+package com.vini.ovenstate.entities;
 
-public enum Mode {
+public enum State {
     GRILL, // Only Grill
     CONVECTION_OVEN, // Upper & lower Elements
     FAN_OVEN, // Fan + Convection
@@ -8,6 +8,6 @@ public enum Mode {
     UPPER, // Upper element only
     LOWER, // Lower element only
     FAN, // Fan only
-    LIGHT, // Light only
-    INVALID
+    LIGHT // Light only
+
 }
