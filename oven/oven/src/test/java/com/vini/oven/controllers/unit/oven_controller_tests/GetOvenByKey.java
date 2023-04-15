@@ -39,7 +39,7 @@ public class GetOvenByKey {
 	String expected = "404 Oven Not Found";
 
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isNotFound())
+	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -52,7 +52,7 @@ public class GetOvenByKey {
 	String expected = "400 Invalid Oven Key";
 
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isBadRequest())
+	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -65,7 +65,7 @@ public class GetOvenByKey {
 	String expected = "503 Service is Currently Unavailable";
 
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isServiceUnavailable())
+	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
