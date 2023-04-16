@@ -50,11 +50,12 @@ public class OvenService {
 	try {
 	    Oven savedOven = oven_repository.save(newOven);
 	    if (savedOven == null)
-		throw new MyCustomInternalExceptions("Could not save oven", "service.database_error");
+		throw new MyCustomInternalExceptions("Could not save oven\n", "service.database_error");
 	    return savedOven;
 	} catch (Exception err) {
 	    if (err instanceof DataIntegrityViolationException)
-		throw new MyCustomInternalExceptions(newOven.getKey() + " already exists", "data.unique_not_respected");
+		throw new MyCustomInternalExceptions(newOven.getKey() + " already exists\n",
+			"data.unique_not_respected");
 	    else
 		throw new MyCustomInternalExceptions(err.getLocalizedMessage(), "service.database_error");
 	}
