@@ -1,10 +1,15 @@
 version: '2'
 
 services:
-  states_svc:
+  statessvc:
     image: 'ovenstate:latest'
     build:
       context: .
     container_name: states_svc
     ports:
       - "8088:8088"
+    expose:
+      - "8088"
+volumes:
+  statessvc:
+    driver: local
