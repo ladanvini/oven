@@ -1,18 +1,11 @@
 package com.vini.oven.services;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.vini.oven.entities.Oven;
 import com.vini.oven.exceptions.MyCustomInternalExceptions;
@@ -23,7 +16,7 @@ public class OvenService {
     @Autowired
     private OvenRepository oven_repository;
     @Autowired
-    private RestTemplate restTemplate;
+    private OvenStateCaller oven_state_caller;
 
     public List<String> showAllOvensStr() {
 	List<Oven> all_ovens = oven_repository.findAllByOrderByIdAsc();
@@ -44,7 +37,7 @@ public class OvenService {
 		    "data.unique_not_respected");
 	// get oven state from other micro service
 	Oven oven = ovensByKey.get(0);
-	Oven updatedOvenState = getOvenWithUpdatedModeFromOvenStateSvc(oven);
+	Oven updatedOvenState = oven_state_caller.getOvenWithUpdatedModeFromOvenStateSvc(oven);
 	// save oven state to db
 	oven.setAllProperties(updatedOvenState.getLight(), updatedOvenState.getUpper_element(),
 		updatedOvenState.getLower_element(), updatedOvenState.getGrill_temp(), updatedOvenState.getFan_speed());
@@ -67,22 +60,4 @@ public class OvenService {
 	}
     }
 
-    private Oven getOvenWithUpdatedModeFromOvenStateSvc(Oven oven) throws MyCustomInternalExceptions {
-	oven.toJSON();
-	HttpHeaders headers = new HttpHeaders();
-	headers.setContentType(MediaType.APPLICATION_JSON);
-
-	HttpEntity<String> entity = new HttpEntity<String>(oven.toJSON(), headers);
-
-	URI uri;
-	try {
-	    uri = new URI("http://statessvc:8088/states/" + oven.getId());
-	    ResponseEntity<Oven> result = restTemplate.postForEntity(uri, entity, Oven.class);
-	    return result.getBody();
-	} catch (URISyntaxException e) {
-//	    e.printStackTrace();
-	    throw new MyCustomInternalExceptions(e.getMessage(), "service.cannot_receive_message");
-	}
-
-    }
 }
