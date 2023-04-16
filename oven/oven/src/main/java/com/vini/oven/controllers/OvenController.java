@@ -37,7 +37,7 @@ public class OvenController {
 
     @RequestMapping(value = "/{key}", method = RequestMethod.GET)
     @ResponseBody
-    public String getEmployeesById(@PathVariable("key") String key) {
+    public String getOvenByKey(@PathVariable("key") String key) {
 	try {
 	    Oven oven = this.ovenService.getOvenByKey(key);
 	    if (oven == null)

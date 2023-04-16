@@ -56,7 +56,7 @@ public class GetOvenByKeyTest {
 	oven_repository.save(expected_oven);
 	oven_repository.save(new Oven("Harry"));
 	oven_repository.save(new Oven("Ron"));
-	String expected = "404 Oven Not Found";
+	String expected = "404 Oven Not Found\n";
 
 	this.mvc.perform(get("/ovens/Neville")).andDo(print()).andExpect(status().isOk())
 		.andExpect(content().string(expected));
@@ -64,7 +64,15 @@ public class GetOvenByKeyTest {
 
     @Test
     public void testShowsOvenNotFoundWhenNoOvensExist() throws Exception {
-	String expected = "404 Oven Not Found";
+	String expected = "404 Oven Not Found\n";
+
+	this.mvc.perform(get("/ovens/Hermoine")).andDo(print()).andExpect(status().isOk())
+		.andExpect(content().string(expected));
+    }
+
+    @Test
+    public void testShowsServiceUnavailable() throws Exception {
+	String expected = "503 Service is Currently Unavailable\n";
 
 	this.mvc.perform(get("/ovens/Hermoine")).andDo(print()).andExpect(status().isOk())
 		.andExpect(content().string(expected));

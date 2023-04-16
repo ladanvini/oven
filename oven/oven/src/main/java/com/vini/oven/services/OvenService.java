@@ -22,6 +22,8 @@ import com.vini.oven.repositories.OvenRepository;
 public class OvenService {
     @Autowired
     private OvenRepository oven_repository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     public List<String> showAllOvensStr() {
 	List<Oven> all_ovens = oven_repository.findAllByOrderByIdAsc();
@@ -71,7 +73,6 @@ public class OvenService {
 	headers.setContentType(MediaType.APPLICATION_JSON);
 
 	HttpEntity<String> entity = new HttpEntity<String>(oven.toJSON(), headers);
-	RestTemplate restTemplate = new RestTemplate();
 
 	URI uri;
 	try {
