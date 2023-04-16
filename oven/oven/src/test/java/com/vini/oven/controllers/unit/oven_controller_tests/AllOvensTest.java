@@ -22,11 +22,11 @@ import com.vini.oven.services.OvenService;
 public class AllOvensTest {
 
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mockMvc;
     @MockBean
-    private OvenService oven_service;
+    private OvenService ovenService;
 
-    private final String path_url = "/ovens";
+    private final String pathUrl = "/ovens";
 
     @Test
     public void testShowsSingleOven() {
@@ -34,11 +34,11 @@ public class AllOvensTest {
 	String dummy_oven_str = "Hello World!";
 	List<String> given_ovens = new ArrayList<String>();
 	given_ovens.add(dummy_oven_str);
-	when(this.oven_service.showAllOvensStr()).thenReturn(given_ovens);
+	when(ovenService.showAllOvensStr()).thenReturn(given_ovens);
 
 	String expected = "Here are all of my ovens!\nHello World!\n";
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
+	    mockMvc.perform(get(pathUrl)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -52,11 +52,11 @@ public class AllOvensTest {
 	given_ovens.add("But Luke, ");
 	given_ovens.add("I am your");
 	given_ovens.add("FATHER!!");
-	when(this.oven_service.showAllOvensStr()).thenReturn(given_ovens);
+	when(ovenService.showAllOvensStr()).thenReturn(given_ovens);
 
 	String expected = "Here are all of my ovens!\nBut Luke, \nI am your\nFATHER!!\n";
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
+	    mockMvc.perform(get(pathUrl)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -67,11 +67,11 @@ public class AllOvensTest {
     public void testShowsOopsIfNoOvens() {
 
 	List<String> given_ovens = new ArrayList<String>();
-	when(this.oven_service.showAllOvensStr()).thenReturn(given_ovens);
+	when(ovenService.showAllOvensStr()).thenReturn(given_ovens);
 
 	String expected = "\nOops! I have no ovens!\n";
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
+	    mockMvc.perform(get(pathUrl)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -81,11 +81,11 @@ public class AllOvensTest {
     @Test
     public void testShowsOopsIfOvensNull() {
 
-	when(this.oven_service.showAllOvensStr()).thenReturn(null);
+	when(ovenService.showAllOvensStr()).thenReturn(null);
 
 	String expected = "\nOops! I have no ovens!\n";
 	try {
-	    mvc.perform(get(this.path_url)).andDo(print()).andExpect(status().isOk())
+	    mockMvc.perform(get(pathUrl)).andDo(print()).andExpect(status().isOk())
 		    .andExpect(content().string(expected));
 	} catch (Exception e) {
 	    e.printStackTrace();
