@@ -20,34 +20,40 @@ import com.vini.oven.repositories.OvenRepository;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class AllOvensTests {
+public class AllOvensTest {
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mockMvc;
+
     @Autowired
-    private OvenRepository oven_repository;
+    private OvenRepository ovenRepository;
 
     @BeforeEach
     public void setUp() {
-	oven_repository.deleteAll();
+	ovenRepository.deleteAll();
+    }
+
+    @AfterEach
+    public void tearDown() {
+	ovenRepository.deleteAll();
     }
 
     @Test
     public void testShowsSingleOvenCorrectStrFormat() throws Exception {
-	oven_repository.save(new Oven("Snape"));
+	ovenRepository.save(new Oven("Snape"));
 	String expected = "Here are all of my ovens!\n"
 		+ "\nOven Key: Snape"
 		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
 		+ "\nGrill Temp: 0\nFan Speed: 0\n\n";
 
-	this.mvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
+	mockMvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
     }
 
     @Test
     public void testShowsMultipleOvensCorrectStrFormat() throws Exception {
-	oven_repository.save(new Oven("Grindelwald"));
-	oven_repository.save(new Oven("Antioch", true, 0, 10, 10, 100));
-	oven_repository.save(new Oven("Cadmus", false, 10, 234, 5, 6));
-	oven_repository.save(new Oven("Ignotus"));
+	ovenRepository.save(new Oven("Grindelwald"));
+	ovenRepository.save(new Oven("Antioch", true, 0, 10, 10, 100));
+	ovenRepository.save(new Oven("Cadmus", false, 10, 234, 5, 6));
+	ovenRepository.save(new Oven("Ignotus"));
 	String expected = "Here are all of my ovens!\n"
 		+ "\nOven Key: Grindelwald"
 		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
@@ -62,19 +68,13 @@ public class AllOvensTests {
 		+ "\nLights: OFF\nUpper Element Temp: 0\nLower Element Temp: 0"
 		+ "\nGrill Temp: 0\nFan Speed: 0\n\n";
 
-	this.mvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
+	mockMvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
     }
 
     @Test
     public void testShowsOopsIfNoOvens() throws Exception {
 	String expected = "\nOops! I have no ovens!\n";
-	mvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
+	mockMvc.perform(get("/ovens")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(expected));
 
     }
-
-    @AfterEach
-    public void tearDown() {
-	oven_repository.deleteAll();
-    }
-
 }
