@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -64,15 +67,20 @@ public class OvenService {
 
     private Oven getOvenWithUpdatedModeFromOvenStateSvc(Oven oven) throws MyCustomInternalExceptions {
 	oven.toJSON();
+	HttpHeaders headers = new HttpHeaders();
+	headers.setContentType(MediaType.APPLICATION_JSON);
+
+	HttpEntity<String> entity = new HttpEntity<String>(oven.toJSON(), headers);
 	RestTemplate restTemplate = new RestTemplate();
+
 	URI uri;
 	try {
-	    uri = new URI("http://localhost:8088/states/" + oven.getId());
-	    ResponseEntity<Oven> result = restTemplate.postForEntity(uri, oven, Oven.class);
+	    uri = new URI("http://statessvc:8088/states/" + oven.getId());
+	    ResponseEntity<Oven> result = restTemplate.postForEntity(uri, entity, Oven.class);
 	    return result.getBody();
 	} catch (URISyntaxException e) {
-	    e.printStackTrace();
-	    throw new MyCustomInternalExceptions("", "");
+//	    e.printStackTrace();
+	    throw new MyCustomInternalExceptions(e.getMessage(), "service.cannot_receive_message");
 	}
 
     }

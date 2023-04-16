@@ -41,15 +41,15 @@ public class OvenController {
 	try {
 	    Oven oven = this.ovenService.getOvenByKey(key);
 	    if (oven == null)
-		return "404 Oven Not Found";
+		return "404 Oven Not Found\n";
 	    return oven.toString();
 	} catch (MyCustomInternalExceptions err) {
 	    if (err.getErrorCode().contentEquals("oven.not_found"))
-		return "404 Oven Not Found";
+		return "404 Oven Not Found\n";
 	    if (err.getErrorCode().contentEquals("data.unique_not_respected"))
-		return "500 Server Error";
+		return "500 Server Error\n";
 	    if (err.getErrorCode().contentEquals("service.cannot_receive_message"))
-		return "503 Service is Currently Unavailable";
+		return "503 Service is Currently Unavailable\n";
 	    return "Oops! Something is not right here...\n" + err.getLocalizedMessage();
 	}
     }
@@ -59,7 +59,7 @@ public class OvenController {
 	try {
 	    Oven saved = ovenService.saveNewOven(newOven);
 	    if (saved == null)
-		return "Something very bad and unexpected happened!";
+		return "Something very bad and unexpected happened!\n";
 	    return saved.toString();
 	} catch (MyCustomInternalExceptions err) {
 	    return err.getMessage();
