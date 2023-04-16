@@ -51,31 +51,47 @@ Navigate to docker folder in oven
 Making sure your docker is running, run
 `docker-compose up`
 
+
 Navigate to docker folder in ovenstate
 `cd ovenstate/ovenstate/src/main/docker`
+
+
 Making sure your docker is running, run
 `docker-compose up`
 
 Now the services are running and you can access oven-svc in `http://127.0.0.1:8080`
 
+
 To enter bash for oven service:
  `docker exec -it oven_svc bash`
+
  
- To enter bash for states service:
+To enter bash for states service:
 `docker exec -it statessvc bash`
 
 ## Invoking the APIs 
 
 ### OVEN SERVICE APIs: 
+~~~
  GET : Greeting
  `curl http://127.0.0.1:8080/`
+~~~
+
+~~~
  GET : Show all ovens
  `curl http://127.0.0.1:8080/ovens`
+~~~
+
+~~~
  GET : Show Specific Oven
  `curl http://127.0.0.1:8080/ovens/{oven_key}`
  this endpoint calls into states-svc to get a new oven state.
+~~~
+
+~~~
  POST : Create new Oven
  `curl -d "{\"key\":\"<oven_key>\"}" -H "Content-Type: application/json" -X POST http://localhost:8080/ovens/new`
+~~~
  
 ### STATES SERVICE API:
  get the state of a given oven:
