@@ -20,69 +20,55 @@ import com.vini.oven.services.OvenService;
 @WebMvcTest(OvenController.class)
 public class GetOvenByKeyTest {
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mockMvc;
     @MockBean
-    private OvenService oven_service;
+    private OvenService ovenService;
 
-    private final String path_url = "/ovens";
+    private final String pathUrl = "/ovens/";
 
     @Test
-    public void testShowsCorrectOven() throws MyCustomInternalExceptions {
+    public void testShowsCorrectOven() throws Exception {
 	String oven_key = "Ignatious";
 	Oven test_oven = new Oven(oven_key, true, 10, 10, 0, 100);
-	when(this.oven_service.getOvenByKey(oven_key)).thenReturn(test_oven);
+
+	when(ovenService.getOvenByKey(oven_key)).thenReturn(test_oven);
+
 	String expected = test_oven.toString();
-	try {
-	    mvc.perform(get(this.path_url + "/" + oven_key)).andDo(print()).andExpect(status().isOk())
-		    .andExpect(content().string(expected));
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
+
+	mockMvc.perform(get(pathUrl + oven_key)).andDo(print()).andExpect(status().isOk())
+		.andExpect(content().string(expected));
+
     }
 
     @Test
-    public void testShowsNotFoundWhenOvenDoesNotExist() throws MyCustomInternalExceptions {
+    public void testShowsNotFoundWhenOvenDoesNotExist() throws Exception {
 	String oven_key = "Ignatious";
-	when(this.oven_service.getOvenByKey(oven_key))
-		.thenThrow(new MyCustomInternalExceptions("msg", "oven.not_found"));
-	String expected = "404 Oven Not Found";
+	when(ovenService.getOvenByKey(oven_key)).thenThrow(new MyCustomInternalExceptions("msg", "oven.not_found"));
 
-	try {
-	    mvc.perform(get(this.path_url + "/" + oven_key)).andDo(print()).andExpect(status().isOk())
-		    .andExpect(content().string(expected));
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
+	String expected = "404 Oven Not Found\n";
 
+	mockMvc.perform(get(pathUrl + oven_key)).andDo(print()).andExpect(status().isOk())
+		.andExpect(content().string(expected));
     }
 
     @Test
-    public void testShowsOvenNotFoundWhenOvenNull() {
-	String expected = "404 Oven Not Found";
+    public void testShowsOvenNotFoundWhenOvenNull() throws Exception {
+	String expected = "404 Oven Not Found\n";
 
-	try {
-	    mvc.perform(get(this.path_url + "/true")).andDo(print()).andExpect(status().isOk())
-		    .andExpect(content().string(expected));
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-
+	mockMvc.perform(get(pathUrl + "true")).andDo(print()).andExpect(status().isOk())
+		.andExpect(content().string(expected));
     }
 
     @Test
-    public void testShowsUnavailableIfCantGetStateFromOtherMicroservice() throws MyCustomInternalExceptions {
+    public void testShowsUnavailableIfCantGetStateFromOtherMicroservice() throws Exception {
 	String oven_key = "Ignatious";
-	when(this.oven_service.getOvenByKey(oven_key))
+
+	when(ovenService.getOvenByKey(oven_key))
 		.thenThrow(new MyCustomInternalExceptions("msg", "service.cannot_receive_message"));
 
-	String expected = "503 Service is Currently Unavailable";
+	String expected = "503 Service is Currently Unavailable\n";
 
-	try {
-	    mvc.perform(get(this.path_url + "/" + oven_key)).andDo(print()).andExpect(status().isOk())
-		    .andExpect(content().string(expected));
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-
+	mockMvc.perform(get(pathUrl + oven_key)).andDo(print()).andExpect(status().isOk())
+		.andExpect(content().string(expected));
     }
 }
